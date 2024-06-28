@@ -2,71 +2,117 @@
 #ifndef BUILD_HPP
 #define BUILD_HPP
 #include <iostream>
-
-class Builder
-{
+#include <stdlib.h>
+#include <string>
+class Test {
 public:
-    // Шаблонный метод (Халтура) Дописать
+    // Шаблонный метод Тестов числа 
 
-    void build()
+    bool Proverka(std::string object)
     {
-        this->test();
-        this->lint();
-        this->assemble();
-        this->deploy();
+        obj = object;
+        if (this->vvod()) {
+            if (this->conditions()) {
+                if (this->mainTest()) {
+                    return 1;
+                }
+                else { return 0; }
+            }
+            else return 0;
+        }
+        else return 0;
+    }
+
+    void showError() {
+        std::cout << error;
     }
 protected:
-    virtual void test() = 0;
-    virtual void lint() = 0;
-    virtual void assemble() = 0;
-    virtual void deploy() = 0;
-
+    std::string  obj;
+    std::string error;
+    virtual bool vvod() = 0; // Проверка на правильные входные данные
+    virtual bool conditions() = 0; // Проверка произвольных условий
+    virtual bool mainTest() = 0; // Необходимая нам проверка
+    
 };
 
-class AndroidBuilder : public Builder
+class IsdigitSimple : public Test //Является ли число простое
 {
-    void test() override
-    {
-        std::cout << "Running android tests" << std::endl;
-    }
+    bool vvod() override {
+        int size = obj.size();
+        if (obj[0] == '-' || isdigit(obj[0])) {
+            for (int i = 1; i < obj.size(); i++)
 
-    void lint() override
-    {
-        std::cout << "Linting the android code" << std::endl;
-    }
+                if (!isdigit(obj[i]))
+                {
+                    error = "IsNotNumber";
+                    return false;
+                }
 
-    void assemble() override
-    {
-        std::cout << "Assembling the android build" << std::endl;
+            digit = std::stoi(obj, nullptr, 10);
+            return 1;
+        }
+        else {
+            error = "IsNotNumber";
+            return false;
+        }
     }
+    bool conditions() {
+        if (digit > 0) return 1;
+        else { error = "digit<=0"; return 0; }
+    }
+    bool mainTest(){
+        int k=0;
+        for (int i = 1; i <= digit;i++) {
+            if (digit % i == 0) k++;
+       }
+        if (k == 2) {
+            return 1;
+        }
+        else { error = "IsNotSimple"; return 0; }
 
-    void deploy() override
-    {
-        std::cout << "Deploying android build to server" << std::endl;
+
     }
+private:
+    int digit;
 };
 
-class IosBuilder : public Builder
+
+
+class IsdigitEven : public Test //Является ли число четным
 {
-    void test() override
-    {
-        std::cout << "Running ios tests"<< std::endl;
+    bool vvod() override {
+        int size = obj.size();
+        if (obj[0] == '-' || isdigit(obj[0])) {
+            for (int i = 1; i < obj.size(); i++)
+
+                if (!isdigit(obj[i]))
+                {
+                    error = "IsNotNumber";
+                    return false;
+                }
+           
+            digit = std::stoi(obj, nullptr, 10); 
+            return 1;
+        }
+        else{
+            error = "IsNotNumber";
+            return false;
+        }
+    }
+   
+    bool conditions() {
+        if (digit > 0) return 1;
+        else { error = "digit<=0"; return 0; }
     }
 
-    void lint() override
-    {
-        std::cout << "Linting the ios code" << std::endl;
+    bool mainTest() {
+        if (digit % 2 == 0) return 1;
+        else { error = "IsNotEven"; return 0; }
     }
 
-    void assemble() override
-    {
-        std::cout << "Assembling the ios build" << std::endl;
-    }
+private:
+    int digit;
 
-    void deploy() override
-    {
-        std::cout << "Deploying ios build to server" << std::endl;
-    }
 };
 
 

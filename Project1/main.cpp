@@ -3,22 +3,29 @@
 
 int main(){
 	
-	NodeList<Builder*> list;
-	AndroidBuilder* k = new AndroidBuilder();
-	IosBuilder* i = new IosBuilder();
-	list.PushBack(k);
-	list.PushBack(i);
+	NodeList<Test*> Testlist;
+
+	std::string str;
+	std::cin >> str;
+
+	IsdigitSimple* a = new IsdigitSimple();
+	IsdigitEven* b = new IsdigitEven();
+	Testlist.PushBack(a);
+	Testlist.PushBack(b);
 
 
-	for (auto it = list.begin(); it != list.end(); ++it) {
+	for (auto it = Testlist.begin(); it != Testlist.end(); ++it) {
 	    auto k = *it;
-		k->build();
+		if (k->Proverka(str)) std::cout << 1;
+		else k->showError();
 		std::cout<<"\n";
 	}
-
-	for (auto it = list.cbegin(); it != list.cend(); ++it) {
+	std::cout << "\n";
+	for (auto it = Testlist.cbegin(); it != Testlist.cend(); ++it) {
 		auto unit = *it;
-		unit->build();
+		if (unit->Proverka(str)) std::cout << 1;
+		else unit->showError();
+		
 		std::cout <<std::endl;
 	}
 	
