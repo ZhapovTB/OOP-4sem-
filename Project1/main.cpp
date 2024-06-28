@@ -1,6 +1,18 @@
 #include "List.hpp"
 #include "Build.hpp"
 
+template<typename T>
+concept check = requires(T a) {
+	a.test();
+};
+
+template<check T, typename U>
+void Push_list(T* obj, NodeList<U>& list) {
+	
+		list.PushBack(obj);
+	
+}
+
 int main(){
 	
 	NodeList<Test*> Testlist;
@@ -10,9 +22,12 @@ int main(){
 
 	IsdigitSimple* a = new IsdigitSimple();
 	IsdigitEven* b = new IsdigitEven();
-	Testlist.PushBack(a);
-	Testlist.PushBack(b);
+	//Testlist.PushBack(a);
+	//Testlist.PushBack(b);
 
+	Push_list(a, Testlist);
+	Push_list(b, Testlist);
+	
 
 	for (auto it = Testlist.begin(); it != Testlist.end(); ++it) {
 	    auto k = *it;

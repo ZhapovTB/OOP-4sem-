@@ -26,12 +26,14 @@ public:
     void showError() {
         std::cout << error;
     }
+    void test() {}
 protected:
     std::string  obj;
     std::string error;
     virtual bool vvod() = 0; // Проверка на правильные входные данные
     virtual bool conditions() = 0; // Проверка произвольных условий
     virtual bool mainTest() = 0; // Необходимая нам проверка
+ 
     
 };
 
